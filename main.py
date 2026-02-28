@@ -78,15 +78,19 @@ def execute_python_code(code: str) -> Dict[str, Any]:
                 "output": "Execution timed out."
             }
 
-def extract_error_lines(traceback_output: str) -> List[int]:
+
+def extract_error_lines(traceback_output: str):
     """
-    Extract only user-code line numbers from traceback.
-    Looks specifically for: File "<string>", line X
+    Extract only the final user-code error line from traceback.
+    Returns only the last <string> line number.
     """
     matches = re.findall(r'File "<string>", line (\d+)', traceback_output)
-    return list(sorted(set(int(m) for m in matches)))
 
+    if not matches:
+        return []
 
+    # Return only the LAST occurrence (actual error location)
+    return [int(matches[-1])]
 
 @app.post("/code-interpreter", response_model=CodeResponse)
 def code_interpreter(request: CodeRequest):

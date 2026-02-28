@@ -17,10 +17,10 @@ jobs:
         run: |
           git config user.name "DevSync Automation"
           git config user.email "22f3000579@ds.study.iitm.ac.in"
-
+          
       - name: Daily Commit Step - 22f3000579@ds.study.iitm.ac.in
         run: |
-          echo "Last updated on $(date)" >> daily-log.txt
+          echo "Run at $(date)" > daily-log.txt
           git add daily-log.txt
-          git commit -m "Automated daily update: $(date)" || echo "No changes to commit"
+          git commit -m "Automated daily update $(date +%s)"
           git push

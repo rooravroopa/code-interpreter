@@ -2,8 +2,11 @@ name: Daily Repository Update
 
 on:
   schedule:
-    - cron: '30 7 * * *'   # Runs daily at 07:30 UTC (specific time, no wildcards)
-  workflow_dispatch:        # Allows manual trigger
+    - cron: '30 7 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write   # 🔥 THIS IS CRITICAL
 
 jobs:
   update-repo:
@@ -17,7 +20,7 @@ jobs:
         run: |
           git config user.name "DevSync Automation"
           git config user.email "22f3000579@ds.study.iitm.ac.in"
-          
+
       - name: Daily Commit Step - 22f3000579@ds.study.iitm.ac.in
         run: |
           echo "Run at $(date)" > daily-log.txt
